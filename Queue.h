@@ -80,8 +80,7 @@ public:
         if (front == nullptr) {
             cout << "📭 No orders to cancel.\n";
             return;
-        }
-
+        }        
         Order* current = front;
         Order* prev = nullptr;
 
