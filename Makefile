@@ -1,5 +1,5 @@
-compile:
-g++ main.cpp -o manee
+compile:main.cpp
+	g++ main.cpp -o manee
 
-run:
-./manee
+run:manee
+	./manee
