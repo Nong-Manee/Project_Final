@@ -4,30 +4,36 @@
 using namespace std;
 
 
-// ตัวอย่างการใช้งาน
+// Main program
 int main() {
     OrderQueue queue;
     int choice;
     string foodName;
-    int orderId;
+    int tableNum, orderId;
 
     do {
-        cout << "\n=== ระบบจัดการออเดอร์ร้านอาหาร ===\n";
-        cout << "1. เพิ่มออเดอร์\n";
-        cout << "2. ดำเนินการออเดอร์\n";
-        cout << "3. ออเดอร์เสร็จสิ้น\n";
-        cout << "4. แสดงรายการออเดอร์\n";
-        cout << "5. ยกเลิกออเดอร์\n";
-        cout << "0. ออกจากระบบ\n";
-        cout << "เลือกเมนู: ";
+        cout << "\n=== Restaurant Order Management System ===\n";
+        cout << "1. Add Order\n";
+        cout << "2. Process Next Order\n";
+        cout << "3. Complete Order\n";
+        cout << "4. Show All Orders\n";
+        cout << "5. Cancel Order\n";
+        cout << "6. Search Orders by Food\n";
+        cout << "7. Count Total Orders\n";
+        cout << "8. Show Popular Orders\n";
+        cout << "0. Exit\n";
+        cout << "Choose an option: ";
         cin >> choice;
-        cin.ignore(); // สำหรับล้าง buffer
+        cin.ignore(); // clear buffer
 
         switch (choice) {
             case 1:
-                cout << "กรอกชื่ออาหาร: ";
+                cout << "Enter food name: ";
                 getline(cin, foodName);
-                queue.addOrder(foodName);
+                cout << "Enter table number: ";
+                cin >> tableNum;
+                cin.ignore();
+                queue.addOrder(foodName, tableNum);
                 break;
             case 2:
                 queue.processOrder();
@@ -39,15 +45,27 @@ int main() {
                 queue.showOrders();
                 break;
             case 5:
-                cout << "กรอกหมายเลขออเดอร์ที่ต้องการยกเลิก: ";
+                cout << "Enter Order ID to cancel: ";
                 cin >> orderId;
+                cin.ignore();
                 queue.cancelOrder(orderId);
                 break;
+            case 6:
+                cout << "Enter food name to search: ";
+                getline(cin, foodName);
+                queue.searchOrder(foodName);
+                break;
+            case 7:
+                queue.countOrders();
+                break;
+            case 8:
+                queue.showPopularOrders();
+                break;
             case 0:
-                cout << "👋 ออกจากระบบแล้ว\n";
+                cout << "👋 Exiting system. Goodbye!\n";
                 break;
             default:
-                cout << "⚠️ เมนูไม่ถูกต้อง\n";
+                cout << "⚠️ Invalid option. Try again.\n";
         }
 
     } while (choice != 0);
