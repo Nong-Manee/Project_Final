@@ -97,8 +97,6 @@ int main() {
                 cout << "6. Count Total Orders\n";
                 cout << "7. Show Popular Orders\n";
                 cout << "8. Check for This meal\n";
-                //cout << "9. Log In Membership\n";
-                //cout << "10. Register This meal\n";
                 cout << "0. Back to Login\n";
                 cout << "Choose an option: ";
                 cin >> choice;
