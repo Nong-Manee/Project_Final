@@ -29,7 +29,7 @@ public:
     }
 
     // Add a new order
-    void addOrder(const string& foodName, int tableNum) {
+    int addOrder(const string& foodName, int tableNum) {
         Order* newOrder = new Order{nextId++, tableNum, foodName, nullptr};
         if (rear == nullptr) {
             front = rear = newOrder;
@@ -37,8 +37,10 @@ public:
             rear->next = newOrder;
             rear = newOrder;
         }
-        cout << "✅ Order #" << newOrder->orderId << " for Table " << tableNum << ": " 
+        cout << "✅ Order #" << newOrder->orderId  << " for Table " << tableNum << ": " 
              << foodName << " added to queue.\n";
+
+        return newOrder->orderId ;
     }
 
     // Show the current order being processed (at the front)
@@ -133,6 +135,8 @@ public:
 
         cout << "🚫 Order #" << current->orderId << " for Table " << current->tableNumber 
              << " canceled.\n";
+        
+        b.remove(current->orderId);
         delete current;
     }
 
@@ -187,13 +191,13 @@ public:
         }
     }
 
-    void addtoBill(string menu, int tableNum, string clientName) {
+    void addtoBill(string menu, int tableNum, string clientName, int orderId) {
         float price;
         if(menu == "burger") price = 40; // add price of menu for more
         else if(menu == "spa") price = 20;
         else price = 10;
 
-        b.addtoBill(menu, price, tableNum, clientName);
+        b.addtoBill(menu, price, tableNum, clientName, orderId);
     }
 
     void showBill(int tableNum) {

@@ -15,6 +15,7 @@ struct Item {
     float price;
     int tableNumber;
     string clientName;
+    int orderId;
 };
 
 class Bill {
@@ -22,7 +23,7 @@ class Bill {
         vector<Item> bill;
         vector<Item> dailyBills;
     public: 
-        void addtoBill(string menu, float price, int tableNum, string clientName) {
+        void addtoBill(string menu, float price, int tableNum, string clientName, int orderId) {
             Item item;
             for(auto& check : bill) {
                 if(check.menu == menu && check.tableNumber == tableNum && check.clientName == clientName) {
@@ -35,8 +36,18 @@ class Bill {
             item.price = price;
             item.tableNumber = tableNum;
             item.clientName = clientName;
+            item.orderId = orderId;
             bill.push_back(item);
             dailyBills.push_back(item);
+        }
+
+        void remove (int orderId)
+        {
+            bill.erase(remove_if(bill.begin(), bill.end(), 
+            [orderId](const Item& item) { return item.orderId == orderId; }), bill.end());
+    
+            dailyBills.erase(remove_if(dailyBills.begin(), dailyBills.end(), 
+            [orderId](const Item& item) { return item.orderId == orderId; }), dailyBills.end());
         }
 
         void showBill(int tableNum) {
@@ -117,13 +128,13 @@ class Bill {
                 return;
             }
             cout << "\n📊 All Bills for Today:\n\n";
+
             vector<pair<int, string>> shownTables;
             for (auto& check : dailyBills) {
                 pair<int, string> NumAndName = make_pair(check.tableNumber, check.clientName);
                 if (find(shownTables.begin(), shownTables.end(), NumAndName) != shownTables.end()) {
                     continue; 
                 }
-        
                 cout << "🧍 Client: " << check.clientName << " | 🪑 Table: " << check.tableNumber << endl;
                 cout << left << setw(18) << "Item"
                      << setw(6) << "Qty"
@@ -145,7 +156,6 @@ class Bill {
         
                 float gst = subtotal * 0.10;
                 float total = subtotal + gst;
-        
                 cout << "--------------------------------------\n";
                 cout << left << setw(32) << "Subtotal" << setw(8) << fixed << setprecision(2) << subtotal << endl;
                 cout << left << setw(33) << "GST (10%)" << setw(8) << gst << endl;
