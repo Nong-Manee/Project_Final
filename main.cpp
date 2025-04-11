@@ -39,6 +39,7 @@ int main() {
                 cout << "3. Search Orders by Food\n";
                 cout << "4. Count Total Orders\n";
                 cout << "5. Show Popular Orders\n";
+                cout << "6. Show All Bills\n";
                 cout << "0. Back to Login\n";
                 cout << "Choose an option: ";
                 cin >> choice;
@@ -61,6 +62,9 @@ int main() {
                         break;
                     case 5:
                         queue.showPopularOrders();
+                        break;
+                    case 6:
+                        queue.showAllBills();
                         break;
                     case 0:
                         cout << "👋 Exiting system. Goodbye!\n";
@@ -98,13 +102,12 @@ int main() {
                 cin >> choice;
                 cin.ignore(); // clear buffer
 
-        
                 switch (choice) {
                     case 1:
                         cout << "Enter food name: ";
                         getline(cin, foodName);
-                        queue.addOrder(foodName, client.getTableNumber());
-                        queue.addtoBill(foodName, client.getTableNumber());
+                        orderId = queue.addOrder(foodName, client.getTableNumber());
+                        queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId);
                         break;
                     case 2:
                         queue.processOrder();
@@ -150,3 +153,4 @@ int main() {
     }
     return 0;
 }
+
