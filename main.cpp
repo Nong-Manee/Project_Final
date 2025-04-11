@@ -5,6 +5,7 @@ using namespace std;
 #include "Queue.h"
 #include "admin.h"
 #include "client.h"
+#include "Table.h"
 
 // Main program
 int main() {
@@ -13,6 +14,7 @@ int main() {
     string foodName, adminName, adminId, clientName, clientTable;
     int tableNum, orderId;
     bool exit = false;
+    Table ReserveTable;
 
     while (true) {
         cout << "👋 Welcome to the Restaurant Order Management System!\n";
@@ -47,7 +49,7 @@ int main() {
                         queue.completeOrder();
                         break;
                     case 2:
-                        queue.showOrders();
+                        queue.showallOrders();
                         break;
                     case 3:
                         cout << "Enter food name to search: ";
@@ -70,13 +72,18 @@ int main() {
             } while (choice != 0);
             
         } else if (userType == 2) {
+            ReserveTable.updatenotAvailTable();
             cout << "Enter Client Name: ";
             cin >> clientName;
+            ReserveTable.showTable();
             cout << "Enter Client Table: ";
             cin >> clientTable;
             Client client(clientName, stoi(clientTable));
+            bool tableIsFree = ReserveTable.addTable(client.getName(), client.getTableNumber());
 
             do {
+                if(tableIsFree == false) break;
+                cout << "Welcome, " << client.getName() << "! Your table number is " << client.getTableNumber() << ".\n";
                 cout << "\n=== Restaurant Order Management System [Client] ===\n";
                 cout << "1. Add Order\n";
                 cout << "2. Process Next Order\n";
@@ -85,22 +92,25 @@ int main() {
                 cout << "5. Search Orders by Food\n";
                 cout << "6. Count Total Orders\n";
                 cout << "7. Show Popular Orders\n";
+                cout << "8. Check for This meal\n";
                 cout << "0. Back to Login\n";
                 cout << "Choose an option: ";
                 cin >> choice;
                 cin.ignore(); // clear buffer
+
         
                 switch (choice) {
                     case 1:
                         cout << "Enter food name: ";
                         getline(cin, foodName);
                         queue.addOrder(foodName, client.getTableNumber());
+                        queue.addtoBill(foodName, client.getTableNumber());
                         break;
                     case 2:
                         queue.processOrder();
                         break;
                     case 3:
-                        queue.showOrders();
+                        queue.showcurrentClientOrders(client.getTableNumber());
                         break;
                     case 4:
                         cout << "Enter Order ID to cancel: ";
@@ -119,13 +129,17 @@ int main() {
                     case 7:
                         queue.showPopularOrders();
                         break;
+                    case 8:
+                        ReserveTable.clearTable(client.getName());
+                        queue.showBill(client.getTableNumber());
+                        break;
                     case 0:
                         cout << "👋 Exiting system. Goodbye!\n";
                         break;
                     default:
                         cout << "⚠️ Invalid option. Try again.\n";
                 }
-            } while (choice != 0);
+            } while (choice != 0 && choice != 8);
         } else {
             cout << "❌ Invalid user type. Exiting.\n";
             exit = true;

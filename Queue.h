@@ -1,6 +1,10 @@
+#ifndef QUEUE_H
+#define QUEUE_H
+
 #include <iostream>
 #include <string>
 #include <map>
+#include "bill.h"
 using namespace std;
 
 struct Order {
@@ -15,6 +19,7 @@ private:
     Order* front;
     Order* rear;
     int nextId;
+    Bill b;
 
 public:
     OrderQueue() {
@@ -60,7 +65,7 @@ public:
     }
 
     // Show all orders in the queue
-    void showOrders() {
+    void showallOrders() {
         if (front == nullptr) {
             cout << "📭 No orders in queue.\n";
             return;
@@ -73,6 +78,29 @@ public:
                  << " | Table " << temp->tableNumber << endl;
             temp = temp->next;
         }
+    }
+
+    void showcurrentClientOrders(int clientTable) {
+        int IsOrder = 0;
+        int OrderId = 1;
+        if (front == nullptr) {
+            cout << "📭 No orders in queue.\n";
+            return;
+        }
+
+        Order* temp = front;
+        cout << "📋 Current Orders in Queue:\n";
+        while (temp != nullptr) {
+            if(temp->tableNumber == clientTable) {
+                cout << " - Order #" << OrderId << ": " << temp->foodName 
+                << " | Table " << temp->tableNumber << endl;
+                IsOrder = 1;
+                OrderId++;
+            }
+            temp = temp->next;
+        }
+        if(IsOrder == 0) 
+            cout << "📭 No orders in queue.\n";
     }
 
     // Cancel an order by ID
@@ -158,6 +186,19 @@ public:
         }
     }
 
+    void addtoBill(string menu, int tableNum) {
+        float price;
+        if(menu == "burger") price = 40; // add price of menu for more
+        else if(menu == "spa") price = 20;
+        else price = 10;
+
+        b.addtoBill(menu, price, tableNum);
+    }
+
+    void showBill(int tableNum) {
+        b.showBill(tableNum);
+    }
+
     // Free memory
     ~OrderQueue() {
         while (front != nullptr) {
@@ -167,3 +208,5 @@ public:
         }
     }
 };
+
+#endif

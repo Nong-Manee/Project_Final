@@ -1,3 +1,6 @@
+#ifndef ADMIN_H
+#define ADMIN_H
+
 #include <iostream>
 #include <string>
 #include <map>
@@ -28,3 +31,5 @@ class Admin : public User {
             cout << "Admin Name: " << name << ", ID: " << id << endl;
         }
 };
+
+#endif
