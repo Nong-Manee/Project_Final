@@ -6,6 +6,15 @@ using namespace std;
 #include "admin.h"
 #include "client.h"
 #include "Table.h"
+#include "menu.h"
+
+MenuItem menu[MENU_SIZE] = {
+    {1, "Pad Thai", 50.0},
+    {2, "Tom Yum Kung", 80.0},
+    {3, "Green Curry Chicken", 70.0},
+    {4, "Fried Rice", 45.0},
+    {5, "Mango Sticky Rice", 60.0}
+};
 
 // Main program
 int main() {
@@ -15,6 +24,9 @@ int main() {
     int tableNum, orderId;
     bool exit = false;
     Table ReserveTable;
+    int orderIDs[MAX_ORDER];
+    int orderQtys[MAX_ORDER];
+    int orderCount = 0;
 
     while (true) {
         cout << "👋 Welcome to the Restaurant Order Management System!\n";
@@ -102,10 +114,23 @@ int main() {
                 cin >> choice;
                 cin.ignore(); // clear buffer
 
+                int i, j;
                 switch (choice) {
                     case 1:
-                        cout << "Enter food name: ";
-                        getline(cin, foodName);
+                        showFoodMenu(menu, MENU_SIZE);
+                        takeOrder(menu, MENU_SIZE, orderIDs, orderQtys, orderCount);
+                        for (i = 0; i < orderCount; ++i) {
+                            // Find the name of the food by ID
+                            foodName = "";
+                            for (j = 0; j < MENU_SIZE; ++j) {
+                                if (menu[j].id == orderIDs[i]) {
+                                    foodName = menu[j].name;
+                                    break;
+                                }
+                            }
+                        }
+                        /*cout << "Enter food name: ";
+                        getline(cin, foodName);*/
                         orderId = queue.addOrder(foodName, client.getTableNumber());
                         queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId);
                         break;
