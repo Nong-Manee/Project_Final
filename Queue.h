@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include "bill.h"
+
 using namespace std;
 
 struct Order {
@@ -186,18 +187,22 @@ public:
         }
     }
 
-    void addtoBill(string menu, int tableNum) {
+    void addtoBill(string menu, int tableNum, string clientName) {
         float price;
         if(menu == "burger") price = 40; // add price of menu for more
         else if(menu == "spa") price = 20;
         else price = 10;
 
-        b.addtoBill(menu, price, tableNum);
+        b.addtoBill(menu, price, tableNum, clientName);
     }
 
     void showBill(int tableNum) {
         b.showBill(tableNum);
     }
+
+    void showAllBills() {
+        b.showAllBills();
+    }    
 
     // Free memory
     ~OrderQueue() {
