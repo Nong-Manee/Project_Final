@@ -102,7 +102,6 @@ int main() {
                 cin >> choice;
                 cin.ignore(); // clear buffer
 
-        
                 switch (choice) {
                     case 1:
                         cout << "Enter food name: ";
