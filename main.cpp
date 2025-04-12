@@ -119,7 +119,7 @@ int main() {
                         cout << "Enter Order ID to cancel: ";
                         cin >> orderId;
                         cin.ignore();
-                        queue.cancelOrder(orderId);
+                        queue.cancelOrder(orderId, client.getTableNumber());
                         break;
                     case 5:
                         cout << "Enter food name to search: ";
@@ -144,7 +144,7 @@ int main() {
                 }
             } while (choice != 0 && choice != 8);
         } else {
-            cout << "❌ Invalid user type. Exiting.\n";
+            cout << "Exiting.\n";
             exit = true;
         }
         if (exit) {

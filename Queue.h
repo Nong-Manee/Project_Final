@@ -37,7 +37,7 @@ public:
             rear->next = newOrder;
             rear = newOrder;
         }
-        cout << "✅ Order #" << newOrder->orderId  << " for Table " << tableNum << ": " 
+        cout << "✅ Order #" << newOrder->orderId << " for Table " << tableNum << ": " 
              << foodName << " added to queue.\n";
 
         return newOrder->orderId ;
@@ -60,7 +60,8 @@ public:
             return;
         }
         Order* temp = front;
-        cout << "✅ Order #" << temp->orderId << " for Table " << temp->tableNumber 
+        int orderId = 1;
+        cout << "✅ Order #" << orderId++ << " for Table " << temp->tableNumber 
              << ": " << temp->foodName << " has been served.\n";
         front = front->next;
         if (front == nullptr) rear = nullptr;
@@ -75,9 +76,10 @@ public:
         }
 
         Order* temp = front;
+        int orderId = 1;
         cout << "📋 Current Orders in Queue:\n";
         while (temp != nullptr) {
-            cout << " - Order #" << temp->orderId << ": " << temp->foodName 
+            cout << " - Order #" << orderId++ << ": " << temp->foodName 
                  << " | Table " << temp->tableNumber << endl;
             temp = temp->next;
         }
@@ -107,7 +109,7 @@ public:
     }
 
     // Cancel an order by ID
-    void cancelOrder(int id) {
+    void cancelOrder(int id, int clientTable) {
         if (front == nullptr) {
             cout << "📭 No orders to cancel.\n";
             return;
@@ -115,9 +117,15 @@ public:
         Order* current = front;
         Order* prev = nullptr;
 
-        while (current != nullptr && current->orderId != id) {
+        while (current != nullptr && current->tableNumber != clientTable) {
             prev = current;
             current = current->next;
+        }
+
+        while (id > 1) {
+            prev = current;
+            current = current->next;
+            id--;
         }
 
         if (current == nullptr) {
