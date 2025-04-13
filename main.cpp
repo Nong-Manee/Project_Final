@@ -21,13 +21,13 @@ int main() {
     OrderQueue queue;
     int choice = 99, userType;
     string foodName, adminName, adminId, clientName, clientTable;
-    int tableNum, orderId;
+    int tableNum, orderId, Price, Quantity;
     bool exit = false;
     Table ReserveTable;
     int orderIDs[MAX_ORDER];
     int orderQtys[MAX_ORDER];
     int orderCount = 0;
-    int i, j;
+    int i, j;   
 
 
     while (true) {
@@ -126,12 +126,15 @@ int main() {
                         for (j = 0; j < MENU_SIZE; ++j) {
                             if (menu[j].id == orderIDs[i]) {
                                 foodName = menu[j].name;
+                                Price = menu[j].price;
                                 break;
                             }
                         }
                     }
+                    Quantity = orderQtys[0];
+                    cout << "Quantity: " << Quantity << endl;
                     orderId = queue.addOrder(foodName, client.getTableNumber());
-                    queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId);
+                    queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId, Price, Quantity);
                     break;
                     case 2:
                         queue.processOrder();
