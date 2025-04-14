@@ -20,8 +20,8 @@ class User {
             cout << "Generic user menu\n";
         }
     
-        ~User(){
-            // cout << "Thankyou for using our system, " << name << "!\n";
+        ~User() {
+            cout << "Thankyou!\n";
         }
 };
 

@@ -21,7 +21,7 @@ int main() {
     OrderQueue queue;
     int choice = 99, userType;
     string foodName, adminName, adminId, clientName, clientTable;
-    int tableNum, orderId;
+    int tableNum, orderId, Price, Quantity;
     bool exit = false;
     Table ReserveTable;
     int orderIDs[MAX_ORDER];
@@ -117,23 +117,24 @@ int main() {
                 int i, j;
                 switch (choice) {
                     case 1:
-                        showFoodMenu(menu, MENU_SIZE);
-                        takeOrder(menu, MENU_SIZE, orderIDs, orderQtys, orderCount);
-                        for (i = 0; i < orderCount; ++i) {
-                            // Find the name of the food by ID
-                            foodName = "";
-                            for (j = 0; j < MENU_SIZE; ++j) {
-                                if (menu[j].id == orderIDs[i]) {
-                                    foodName = menu[j].name;
-                                    break;
-                                }
+                    showFoodMenu(menu, MENU_SIZE);
+                    takeOrder(menu, MENU_SIZE, orderIDs, orderQtys, orderCount);
+                    for (i = 0; i < orderCount; ++i) {
+                        // Find the name of the food by ID
+                        foodName = "";
+                        for (j = 0; j < MENU_SIZE; ++j) {
+                            if (menu[j].id == orderIDs[i]) {
+                                foodName = menu[j].name;
+                                Price = menu[j].price;
+                                break;
                             }
                         }
-                        /*cout << "Enter food name: ";
-                        getline(cin, foodName);*/
-                        orderId = queue.addOrder(foodName, client.getTableNumber());
-                        queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId);
-                        break;
+                    }
+                    Quantity = orderQtys[0];
+                    cout << "Quantity: " << Quantity << endl;
+                    orderId = queue.addOrder(foodName, client.getTableNumber());
+                    queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId, Price, Quantity);
+                    break;
                     case 2:
                         queue.processOrder();
                         break;
@@ -144,7 +145,7 @@ int main() {
                         cout << "Enter Order ID to cancel: ";
                         cin >> orderId;
                         cin.ignore();
-                        queue.cancelOrder(orderId);
+                        queue.cancelOrder(orderId, client.getTableNumber());
                         break;
                     case 5:
                         cout << "Enter food name to search: ";
@@ -169,7 +170,7 @@ int main() {
                 }
             } while (choice != 0 && choice != 8);
         } else {
-            cout << "❌ Invalid user type. Exiting.\n";
+            cout << "Exiting.\n";
             exit = true;
         }
         if (exit) {
