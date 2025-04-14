@@ -31,7 +31,7 @@ void showFoodMenu(const MenuItem menu[], int size) {
     cout << "==================================\n";
 }
 
-void takeOrder(const MenuItem menu[], int menuSize, int orderIDs[], int orderQtys[], int &orderCount) {
+/*void takeOrder(const MenuItem menu[], int menuSize, int orderIDs[], int orderQtys[], int &orderCount) {
     orderCount = 0;
     int id, qty;
 
@@ -64,6 +64,33 @@ void takeOrder(const MenuItem menu[], int menuSize, int orderIDs[], int orderQty
             cout << "Invalid ID. Please try again.\n";
         }
     }
+}*/
+
+void takeOrder(const MenuItem menu[], int menuSize, int orderIDs[], int orderQtys[], int &orderCount) {
+    orderCount = 0;
+    int id, qty;
+
+    cout << "\nEnter food ID to order: ";
+    cin >> id;
+
+    bool found = false;
+    for (int i = 0; i < menuSize; ++i) {
+        if (menu[i].id == id) {
+            found = true;
+            //cout << "Enter quantity: ";
+            //cin >> qty;
+
+            orderIDs[0] = id;
+            //orderQtys[0] = qty;
+            orderCount = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "Invalid ID. No order taken.\n";
+    }
 }
+
 
 #endif

@@ -129,11 +129,11 @@ int main() {
                                 break;
                             }
                         }
+                        //Quantity = orderQtys[0];
                     }
-                    Quantity = orderQtys[0];
-                    cout << "Quantity: " << Quantity << endl;
+                    //cout << "Quantity: " << Quantity << endl;
                     orderId = queue.addOrder(foodName, client.getTableNumber());
-                    queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId, Price, Quantity);
+                    queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId, Price);
                     break;
                     case 2:
                         queue.processOrder();

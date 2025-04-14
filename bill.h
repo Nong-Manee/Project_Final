@@ -23,7 +23,7 @@ class Bill {
         vector<Item> bill;
         vector<Item> dailyBills;
     public: 
-        void addtoBill(string menu, float price, int tableNum, string clientName, int orderId, int Quantity) {
+        void addtoBill(string menu, float price, int tableNum, string clientName, int orderId) {
             Item item;
             for(auto& check : bill) {
                 if(check.menu == menu && check.tableNumber == tableNum && check.clientName == clientName) {
@@ -32,7 +32,7 @@ class Bill {
                 }
             }
             item.menu = menu;
-            item.quantity = Quantity;
+            item.quantity = 1;
             item.price = price;
             item.tableNumber = tableNum;
             item.clientName = clientName;

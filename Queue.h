@@ -199,13 +199,8 @@ public:
         }
     }
 
-    void addtoBill(string menu, int tableNum, string clientName, int orderId, float price, int Quantity) {
-        /*float price;
-        if(menu == "burger") price = 40; // add price of menu for more
-        else if(menu == "spa") price = 20;
-        else price = 10;*/
-
-        b.addtoBill(menu, price, tableNum, clientName, orderId, Quantity);
+    void addtoBill(string menu, int tableNum, string clientName, int orderId, float price) {
+        b.addtoBill(menu, price, tableNum, clientName, orderId);
     }
 
     void showBill(int tableNum) {
