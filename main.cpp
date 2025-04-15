@@ -118,7 +118,7 @@ int main() {
                 switch (choice) {
                     case 1:
                     showFoodMenu(menu, MENU_SIZE);
-                    takeOrder(menu, MENU_SIZE, orderIDs, orderQtys, orderCount);
+                    takeOrder(menu, MENU_SIZE, orderIDs, orderCount);
                     for (i = 0; i < orderCount; ++i) {
                         // Find the name of the food by ID
                         foodName = "";
@@ -131,7 +131,8 @@ int main() {
                         }
                         //Quantity = orderQtys[0];
                     }
-                    //cout << "Quantity: " << Quantity << endl;
+                    Quantity = orderQtys[0];
+                    cout << "Quantity: " << Quantity << endl;
                     orderId = queue.addOrder(foodName, client.getTableNumber());
                     queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId, Price);
                     break;

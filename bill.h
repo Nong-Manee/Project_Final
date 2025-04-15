@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "timestamp.h"
 
 using namespace std;
 
@@ -23,23 +24,23 @@ class Bill {
         vector<Item> bill;
         vector<Item> dailyBills;
     public: 
-        void addtoBill(string menu, float price, int tableNum, string clientName, int orderId) {
-            Item item;
-            for(auto& check : bill) {
-                if(check.menu == menu && check.tableNumber == tableNum && check.clientName == clientName) {
-                    check.quantity++;
-                    return;
-                }
+    void addtoBill(string menu, float price, int tableNum, string clientName, int orderId) {
+        Item item;
+        for(auto& check : bill) {
+            if(check.menu == menu && check.tableNumber == tableNum && check.clientName == clientName) {
+                check.quantity++;
+                return;
             }
-            item.menu = menu;
-            item.quantity = 1;
-            item.price = price;
-            item.tableNumber = tableNum;
-            item.clientName = clientName;
-            item.orderId = orderId;
-            bill.push_back(item);
-            dailyBills.push_back(item);
         }
+        item.menu = menu;
+        item.quantity = 1;
+        item.price = price;
+        item.tableNumber = tableNum;
+        item.clientName = clientName;
+        item.orderId = orderId;
+        bill.push_back(item);
+        dailyBills.push_back(item);
+    }
 
         void remove (int orderId)
         {
@@ -55,6 +56,7 @@ class Bill {
             float gst;
             float total;
             int i=0, count = 0;
+            static int billno = 1;
 
             for(auto& check : bill) {
                 if(check.tableNumber == tableNum) count = 1;
@@ -62,13 +64,14 @@ class Bill {
             if(count) {
                 cout << "--------------------------------------\n";
                 cout << "           THE GRILL HOUSE\n";
-                cout << "       123 Food Street, Sydney\n";
-                cout << "        Phone: (02) 1234 5678\n";
+                cout << "   123 Bantadtong Street, Thailand\n";
+                cout << "         Phone: 021 123 5678\n";
                 cout << "--------------------------------------\n";
-                cout << "Date: 11-Apr-2025     Time: 12:34 PM\n";
-                cout << "Bill No: 001235\n\n";
+                cout << "Date: "<< getCurrentTimestamp(7) << " PM\n";
+                cout << "Bill No: " << right << setw(6) << setfill('0') << billno << "\n\n";
+                billno++;
     
-                cout << left << setw(18) << "Item"
+                cout << left << setw(18) << setfill(' ') << "Item"
                 << setw(6) << "Qty"
                 << setw(8) << "Price"
                 << setw(8) << "Total" << endl;
@@ -120,6 +123,7 @@ class Bill {
                 cout << "Your receipt have print already\n";
             }
         }
+        
 
         void showAllBills() { //for admin
             Item item;
