@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "timestamp.h"
 
 using namespace std;
 
@@ -27,7 +28,7 @@ class Bill {
             Item item;
             for(auto& check : bill) {
                 if(check.menu == menu && check.tableNumber == tableNum && check.clientName == clientName) {
-                    check.quantity++;
+                    check.quantity+=Quantity;
                     return;
                 }
             }
@@ -55,6 +56,7 @@ class Bill {
             float gst;
             float total;
             int i=0, count = 0;
+            static int billno = 1;
 
             for(auto& check : bill) {
                 if(check.tableNumber == tableNum) count = 1;
@@ -62,13 +64,14 @@ class Bill {
             if(count) {
                 cout << "--------------------------------------\n";
                 cout << "           THE GRILL HOUSE\n";
-                cout << "       123 Food Street, Sydney\n";
-                cout << "        Phone: (02) 1234 5678\n";
+                cout << "   123 Bantadtong Street, Thailand\n";
+                cout << "         Phone: 021 123 5678\n";
                 cout << "--------------------------------------\n";
-                cout << "Date: 11-Apr-2025     Time: 12:34 PM\n";
-                cout << "Bill No: 001235\n\n";
+                cout << "Date: "<< getCurrentTimestamp(7) << " PM\n";
+                cout << "Bill No: " << right << setw(6) << setfill('0') << billno << "\n\n";
+                billno++;
     
-                cout << left << setw(18) << "Item"
+                cout << left << setw(18) << setfill(' ') << "Item"
                 << setw(6) << "Qty"
                 << setw(8) << "Price"
                 << setw(8) << "Total" << endl;
@@ -120,6 +123,81 @@ class Bill {
                 cout << "Your receipt have print already\n";
             }
         }
+
+        // void showBill(int tableNum) {
+        //     float subtotal = 0;
+        //     float gst;
+        //     float total;
+        //     int i = 0, count = 0;
+        
+        //     for (auto& check : bill) {
+        //         if (check.tableNumber == tableNum) count = 1;
+        //     }
+        
+        //     if (count) {
+        //         cout << "------------------------------------------------------------\n";
+        //         cout << "                   THE GRILL HOUSE                         \n";
+        //         cout << "               123 Food Street, Sydney                     \n";
+        //         cout << "                Phone: (02) 1234 5678                      \n";
+        //         cout << "------------------------------------------------------------\n";
+        //         cout << "Date: 11-Apr-2025                   Time: 12:34 PM         \n";
+        //         cout << "Bill No: 001235\n\n";
+        
+        //         cout << left << setw(25) << "Item"
+        //              << setw(10) << "Quantity"
+        //              << setw(15) << "Unit Price"
+        //              << setw(15) << "Total" << endl;
+        
+        //         cout << "------------------------------------------------------------\n";
+        
+        //         for (const auto& check : bill) {
+        //             if (check.tableNumber == tableNum) {
+        //                 float lineTotal = check.quantity * check.price;
+        //                 cout << left << setw(25) << check.menu
+        //                      << setw(10) << check.quantity
+        //                      << setw(15) << fixed << setprecision(2) << check.price
+        //                      << setw(15) << lineTotal << endl;
+        //                 subtotal += lineTotal;
+        //             }
+        //         }
+        
+        //         cout << "------------------------------------------------------------\n";
+        
+        //         gst = subtotal * 0.10;
+        //         total = subtotal + gst;
+        
+        //         cout << left << setw(50) << "Subtotal"
+        //              << setw(10) << fixed << setprecision(2) << subtotal << endl;
+        
+        //         cout << left << setw(50) << "GST (10%)"
+        //              << setw(10) << gst << endl;
+        
+        //         cout << "------------------------------------------------------------\n";
+        
+        //         cout << left << setw(50) << "Total Amount"
+        //              << setw(10) << total << endl;
+        
+        //         cout << "------------------------------------------------------------\n";
+        //         cout << "Payment Method: Cash\n";
+        //         cout << "Thank you! Please visit again. 😊\n";
+        //         cout << "------------------------------------------------------------\n";
+        
+        //         // Clear items for this table from the bill
+        //         i = 0;
+        //         while (i < bill.size()) {
+        //             if (bill[i].tableNumber == tableNum) {
+        //                 bill.erase(bill.begin() + i);
+        //             } else {
+        //                 i++;
+        //             }
+        //         }
+        
+        //         bill.shrink_to_fit();
+        //     } else {
+        //         cout << "Your receipt has already been printed.\n";
+        //     }
+        // }
+        
 
         void showAllBills() { //for admin
             Item item;
