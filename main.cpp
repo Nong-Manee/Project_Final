@@ -118,22 +118,22 @@ int main() {
 
                 switch (choice) {
                     case 1:
-                        showFoodMenu(menu, MENU_SIZE);
-                        takeOrder(menu, MENU_SIZE, orderIDs, orderQtys, orderCount);
-                        for (i = 0; i < orderCount; ++i) {
-                            // Find the name of the food by ID
-                            foodName = "";
-                            for (j = 0; j < MENU_SIZE; ++j) {
-                                if (menu[j].id == orderIDs[i]) {
-                                    foodName = menu[j].name;
-                                    Quantity = orderQtys[i];
-                                    orderId = queue.addOrder(foodName, client.getTableNumber());
-                                    queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId, Quantity);
-                                    break;
-                                }
+                    showFoodMenu(menu, MENU_SIZE);
+                    takeOrder(menu, MENU_SIZE, orderIDs, orderCount);
+                    for (i = 0; i < orderCount; ++i) {
+                        // Find the name of the food by ID
+                        foodName = "";
+                        for (j = 0; j < MENU_SIZE; ++j) {
+                            if (menu[j].id == orderIDs[i]) {
+                                foodName = menu[j].name;
+                                Price = menu[j].price;
+                                break;
                             }
                         }
-                        break;
+                    }
+                    orderId = queue.addOrder(foodName, client.getTableNumber());
+                    queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId, Price);
+                    break;
                     case 2:
                         queue.processOrder();
                         break;

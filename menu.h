@@ -31,38 +31,29 @@ void showFoodMenu(const MenuItem menu[], int size) {
     cout << "==================================\n";
 }
 
-void takeOrder(const MenuItem menu[], int menuSize, int orderIDs[], int orderQtys[], int &orderCount) {
+void takeOrder(const MenuItem menu[], int menuSize, int orderIDs[], int &orderCount) {
     orderCount = 0;
     int id, qty;
 
-    while (true) {
-        cout << "\nEnter food ID to order (0 to finish): ";
-        cin >> id;
+    cout << "\nEnter food ID to order: ";
+    cin >> id;
 
-        if (id == 0) break;
+    bool found = false;
+    for (int i = 0; i < menuSize; ++i) {
+        if (menu[i].id == id) {
+            found = true;
+            //cout << "Enter quantity: ";
+            //cin >> qty;
 
-        bool found = false;
-        for (int i = 0; i < menuSize; ++i) {
-            if (menu[i].id == id) {
-                found = true;
-                cout << "Enter quantity: ";
-                cin >> qty;
-
-                if (orderCount < MAX_ORDER) {
-                    orderIDs[orderCount] = id;
-                    orderQtys[orderCount] = qty;
-                    orderCount++;
-                } else {
-                    cout << "Order list is full.\n";
-                }
-
-                break;
-            }
+            orderIDs[0] = id;
+            //orderQtys[0] = qty;
+            orderCount = 1;
+            break;
         }
+    }
 
-        if (!found) {
-            cout << "Invalid ID. Please try again.\n";
-        }
+    if (!found) {
+        cout << "Invalid ID. No order taken.\n";
     }
 }
 
