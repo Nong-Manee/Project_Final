@@ -63,8 +63,8 @@ class Bill {
             }
             if(count) {
                 cout << "--------------------------------------\n";
-                cout << "           THE GRILL HOUSE\n";
-                cout << "   123 Bantadtong Street, Thailand\n";
+                cout << "           THE MANEE HOUSE\n";
+                cout << "   999 Mahidol U. Street, Thailand\n";
                 cout << "         Phone: 021 123 5678\n";
                 cout << "--------------------------------------\n";
                 cout << "Date: "<< getCurrentTimestamp(7) << " PM\n";
