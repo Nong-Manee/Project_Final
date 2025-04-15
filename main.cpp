@@ -116,10 +116,11 @@ int main() {
                 cin >> choice;
                 cin.ignore(); // clear buffer
 
+                bool found;
                 switch (choice) {
                     case 1:
                     showFoodMenu(menu, MENU_SIZE);
-                    takeOrder(menu, MENU_SIZE, orderIDs, orderCount);
+                    found = takeOrder(menu, MENU_SIZE, orderIDs, orderCount);
                     for (i = 0; i < orderCount; ++i) {
                         // Find the name of the food by ID
                         foodName = "";
@@ -131,8 +132,10 @@ int main() {
                             }
                         }
                     }
-                    orderId = queue.addOrder(foodName, client.getTableNumber());
-                    queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId, Price);
+                    if(found){
+                        orderId = queue.addOrder(foodName, client.getTableNumber());
+                        queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId, Price);
+                    } 
                     break;
                     case 2:
                         queue.processOrder();
