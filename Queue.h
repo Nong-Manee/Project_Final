@@ -110,6 +110,7 @@ public:
 
     // Cancel an order by ID
     void cancelOrder(int id, int clientTable) {
+        int temp_id = id;
         if (front == nullptr) {
             cout << "📭 No orders to cancel.\n";
             return;
@@ -122,10 +123,10 @@ public:
             current = current->next;
         }
 
-        while (id > 1) {
+        while (temp_id > 1) {
             prev = current;
             current = current->next;
-            id--;
+            temp_id--;
         }
 
         if (current == nullptr) {
@@ -141,7 +142,7 @@ public:
             if (current == rear) rear = prev;
         }
 
-        cout << "🚫 Order #" << current->orderId << " for Table " << current->tableNumber 
+        cout << "🚫 Order #" << id << " for Table " << current->tableNumber 
              << " canceled.\n";
         
         b.remove(current->orderId);
