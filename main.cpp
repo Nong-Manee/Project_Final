@@ -8,14 +8,6 @@ using namespace std;
 #include "Table.h"
 #include "menu.h"
 
-MenuItem menu[MENU_SIZE] = {
-    {1, "Pad Thai", 50.0},
-    {2, "Tom Yum Kung", 80.0},
-    {3, "Green Curry Chicken", 70.0},
-    {4, "Fried Rice", 45.0},
-    {5, "Mango Sticky Rice", 60.0}
-};
-
 // Main program
 int main() {
     OrderQueue queue;
@@ -28,10 +20,13 @@ int main() {
     int orderQtys[MAX_ORDER];
     int orderCount = 0;
     int i, j;   
+    User* Info;
 
 
     while (true) {
         cout << "👋 Welcome to the Restaurant Order Management System!\n";
+        Info = new User();
+        Info->displayInfo();//polymorphism
         cout << "Admin (1) / Client (2) ? (else (exit)): ";
         cin >> userType;
 
@@ -42,8 +37,9 @@ int main() {
                 cin >> adminName;
                 cout << "Enter Admin ID: ";
                 cin >> adminId;
-                Admin admin(adminName, stoi(adminId));
-                isAdmin = admin.adminLogin();
+                Info =new Admin(adminName, stoi(adminId));//polymorphism
+                Info->displayInfo();
+                isAdmin = Info->adminLogin();
             }
 
             do {
@@ -96,12 +92,13 @@ int main() {
             ReserveTable.showTable();
             cout << "Enter Client Table: ";
             cin >> clientTable;
-            Client client(clientName, stoi(clientTable));
-            bool tableIsFree = ReserveTable.addTable(client.getName(), client.getTableNumber());
+            Info = new Client(clientName, stoi(clientTable));//polymorphism
+            bool tableIsFree = ReserveTable.addTable(Info->getName(), Info->getTableNumber());
+            Info->displayInfo();
 
             do {
                 if(tableIsFree == false) break;
-                cout << "Welcome, " << client.getName() << "! Your table number is " << client.getTableNumber() << ".\n";
+                cout << "Welcome, " << Info->getName() << "! Your table number is " << Info->getTableNumber() << ".\n";
                 cout << "\n=== Restaurant Order Management System [Client] ===\n";
                 cout << "1. Add Order\n";
                 cout << "2. Process Next Order\n";
@@ -133,21 +130,21 @@ int main() {
                         }
                     }
                     if(found){
-                        orderId = queue.addOrder(foodName, client.getTableNumber());
-                        queue.addtoBill(foodName, client.getTableNumber(), client.getName(), orderId, Price);
+                        orderId = queue.addOrder(foodName, Info->getTableNumber());
+                        queue.addtoBill(foodName, Info->getTableNumber(), Info->getName(), orderId, Price);
                     } 
                     break;
                     case 2:
                         queue.processOrder();
                         break;
                     case 3:
-                        queue.showcurrentClientOrders(client.getTableNumber());
+                        queue.showcurrentClientOrders(Info->getTableNumber());
                         break;
                     case 4:
                         cout << "Enter Order ID to cancel: ";
                         cin >> orderId;
                         cin.ignore();
-                        queue.cancelOrder(orderId, client.getTableNumber());
+                        queue.cancelOrder(orderId, Info->getTableNumber());
                         break;
                     case 5:
                         cout << "Enter food name to search: ";
@@ -161,8 +158,8 @@ int main() {
                         queue.showPopularOrders();
                         break;
                     case 8:
-                        ReserveTable.clearTable(client.getName());
-                        queue.showBill(client.getTableNumber());
+                        ReserveTable.clearTable(Info->getName());
+                        queue.showBill(Info->getTableNumber());
                         break;
                     case 0:
                         cout << "👋 Exiting system. Goodbye!\n";

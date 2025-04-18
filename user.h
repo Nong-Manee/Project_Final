@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include "menu.h"
 using namespace std;
 
 class User {
@@ -19,8 +20,24 @@ class User {
         virtual void showMenu() const {
             cout << "Generic user menu\n";
         }
-    
-        ~User() {
+
+        virtual void displayInfo(){
+            showFoodMenu(menu,MENU_SIZE);
+        }
+
+        virtual bool adminLogin(){
+            return false;
+        }
+
+        virtual int getTableNumber() {
+            return 1;
+        }
+
+        virtual string getName() {
+            return name;
+        }
+
+        virtual ~User() {
             cout << "Thankyou!\n";
         }
 };

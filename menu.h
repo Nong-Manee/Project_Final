@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include <iomanip>
-#include "menu.h"
 
 using namespace std;
 
@@ -15,6 +14,14 @@ struct MenuItem {
     int id;
     char name[50];
     double price;
+};
+
+MenuItem menu[MENU_SIZE] = {
+    {1, "Pad Thai", 50.0},
+    {2, "Tom Yum Kung", 80.0},
+    {3, "Green Curry Chicken", 70.0},
+    {4, "Fried Rice", 45.0},
+    {5, "Mango Sticky Rice", 60.0}
 };
 
 void showFoodMenu(const MenuItem menu[], int size) {
