@@ -10,7 +10,7 @@ using namespace std;
 
 class Admin : public User {
     public:
-        Admin(string name, int id){
+        Admin(string name, int id):User(name, id){
             this->name = name;
             this->id = id;
         }

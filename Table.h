@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include "timestamp.h"
 using namespace std;
 
 class Table {
@@ -11,25 +12,24 @@ class Table {
         map<string, int> table;
         const int Max_Table = 6;
     public: 
-        // Table(string name="testTEST", int tableNumber=0) {
-        //     table[name] = tableNumber;
-        // }
-
         bool addTable(string name, int tableNumber) {
             if(table.count(name) == 1 && table[name] == tableNumber)
                 return true;
             for (auto entry : table) {
                 if(tableNumber==entry.second) {
                     cout << "This table has been reserved already. Please try again! ❌" << endl;
+                    pressEnter();
                     return false;
                 }
             }
             if(tableNumber>=7 || tableNumber<=0) {
                 cout << "Our restaurant has only 6 tables ❌" << endl;
+                pressEnter();
                 return false;
             }
             if(table.find(name) != table.end()) {
                 cout << "You can Reserved only 1 Table" << endl;
+                pressEnter();
                 return false;
             }
             table[name] = tableNumber;

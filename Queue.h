@@ -5,6 +5,8 @@
 #include <string>
 #include <map>
 #include "bill.h"
+#include "timestamp.h"
+
 using namespace std;
 
 struct Order {
@@ -28,7 +30,7 @@ public:
     }
 
     // Add a new order
-    void addOrder(const string& foodName, int tableNum) {
+    int addOrder(const string& foodName, int tableNum) {
         Order* newOrder = new Order{nextId++, tableNum, foodName, nullptr};
         if (rear == nullptr) {
             front = rear = newOrder;
@@ -38,6 +40,8 @@ public:
         }
         cout << "✅ Order #" << newOrder->orderId << " for Table " << tableNum << ": " 
              << foodName << " added to queue.\n";
+        pressEnter();
+        return newOrder->orderId ;
     }
 
     // Show the current order being processed (at the front)
@@ -57,7 +61,8 @@ public:
             return;
         }
         Order* temp = front;
-        cout << "✅ Order #" << temp->orderId << " for Table " << temp->tableNumber 
+        int orderId = 1;
+        cout << "✅ Order #" << orderId++ << " for Table " << temp->tableNumber 
              << ": " << temp->foodName << " has been served.\n";
         front = front->next;
         if (front == nullptr) rear = nullptr;
@@ -72,9 +77,10 @@ public:
         }
 
         Order* temp = front;
+        int orderId = 1;
         cout << "📋 Current Orders in Queue:\n";
         while (temp != nullptr) {
-            cout << " - Order #" << temp->orderId << ": " << temp->foodName 
+            cout << " - Order #" << orderId++ << ": " << temp->foodName 
                  << " | Table " << temp->tableNumber << endl;
             temp = temp->next;
         }
@@ -82,7 +88,6 @@ public:
 
     void showcurrentClientOrders(int clientTable) {
         int IsOrder = 0;
-        int OrderId = 1;
         if (front == nullptr) {
             cout << "📭 No orders in queue.\n";
             return;
@@ -92,19 +97,19 @@ public:
         cout << "📋 Current Orders in Queue:\n";
         while (temp != nullptr) {
             if(temp->tableNumber == clientTable) {
-                cout << " - Order #" << OrderId << ": " << temp->foodName 
+                cout << " - Order #" << temp->orderId << ": " << temp->foodName 
                 << " | Table " << temp->tableNumber << endl;
                 IsOrder = 1;
-                OrderId++;
             }
             temp = temp->next;
         }
-        if(IsOrder == 0) 
+        if(IsOrder == 0)  
             cout << "📭 No orders in queue.\n";
     }
 
     // Cancel an order by ID
-    void cancelOrder(int id) {
+    void cancelOrder(int id, int clientTable) {
+        int temp_id = id;
         if (front == nullptr) {
             cout << "📭 No orders to cancel.\n";
             return;
@@ -112,9 +117,15 @@ public:
         Order* current = front;
         Order* prev = nullptr;
 
-        while (current != nullptr && current->orderId != id) {
+        while (current != nullptr && current->tableNumber != clientTable) {
             prev = current;
             current = current->next;
+        }
+
+        while (temp_id > 1) {
+            prev = current;
+            current = current->next;
+            temp_id--;
         }
 
         if (current == nullptr) {
@@ -130,8 +141,10 @@ public:
             if (current == rear) rear = prev;
         }
 
-        cout << "🚫 Order #" << current->orderId << " for Table " << current->tableNumber 
+        cout << "🚫 Order #" << id << " for Table " << current->tableNumber 
              << " canceled.\n";
+        
+        b.remove(current->orderId);
         delete current;
     }
 
@@ -164,40 +177,17 @@ public:
         cout << "📦 Total orders in queue: " << count << endl;
     }
 
-    // Show most ordered (popular) items
-    void showPopularOrders() {
-        map<string, int> foodCount;
-        Order* temp = front;
-        while (temp != nullptr) {
-            foodCount[temp->foodName]++;
-            temp = temp->next;
-        }
-
-        cout << "🔥 Most popular items:\n";
-        bool found = false;
-        for (auto& entry : foodCount) {
-            if (entry.second > 1) {
-                cout << " - " << entry.first << ": " << entry.second << " times\n";
-                found = true;
-            }
-        }
-        if (!found) {
-            cout << "📉 No duplicate items found yet.\n";
-        }
-    }
-
-    void addtoBill(string menu, int tableNum) {
-        float price;
-        if(menu == "burger") price = 40; // add price of menu for more
-        else if(menu == "spa") price = 20;
-        else price = 10;
-
-        b.addtoBill(menu, price, tableNum);
+    void addtoBill(string menu, int tableNum, string clientName, int orderId, float price) {
+        b.addtoBill(menu, price, tableNum, clientName, orderId);
     }
 
     void showBill(int tableNum) {
         b.showBill(tableNum);
     }
+
+    void showAllBills() {
+        b.showAllBills();
+    }    
 
     // Free memory
     ~OrderQueue() {
