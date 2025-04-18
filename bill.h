@@ -17,6 +17,7 @@ struct Item {
     int tableNumber;
     string clientName;
     int orderId;
+    string timestamp;
 };
 
 class Bill {
@@ -57,17 +58,29 @@ class Bill {
             float total;
             int i=0, count = 0;
             static int billno = 1;
+            string currentTime;
 
             for(auto& check : bill) {
-                if(check.tableNumber == tableNum) count = 1;
+                if(check.tableNumber == tableNum) {
+                    check.timestamp = getCurrentTimestamp(7);
+                    currentTime = check.timestamp;
+                    count = 1;
+                }
             }
+
+            for(auto& check : dailyBills) {
+                if(check.tableNumber == tableNum) {
+                    check.timestamp = currentTime;
+                }
+            }
+
             if(count) {
                 cout << "--------------------------------------\n";
                 cout << "           THE MANEE HOUSE\n";
                 cout << "   999 Mahidol U. Street, Thailand\n";
                 cout << "         Phone: 021 123 5678\n";
                 cout << "--------------------------------------\n";
-                cout << "Date: "<< getCurrentTimestamp(7) << " PM\n";
+                cout << "Date: "<< currentTime << " PM\n";
                 cout << "Bill No: " << right << setw(6) << setfill('0') << billno << "\n\n";
                 billno++;
     
@@ -131,6 +144,7 @@ class Bill {
                 cout << "📭 No bills available today.\n";
                 return;
             }
+            
             cout << "\n📊 All Bills for Today:\n\n";
 
             vector<pair<int, string>> shownTables;
@@ -139,7 +153,12 @@ class Bill {
                 if (find(shownTables.begin(), shownTables.end(), NumAndName) != shownTables.end()) {
                     continue; 
                 }
+                if(check.timestamp == "")
+                {
+                    continue;
+                }
                 cout << "🧍 Client: " << check.clientName << " | 🪑 Table: " << check.tableNumber << endl;
+                cout << "Date: "<< check.timestamp << " PM\n";
                 cout << left << setw(18) << "Item"
                      << setw(6) << "Qty"
                      << setw(8) << "Price"
