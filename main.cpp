@@ -43,11 +43,11 @@ int main() {
                 cout << "Enter Admin ID: ";
                 cin >> adminId;
                 Info =new Admin(adminName, stoi(adminId));//polymorphism
-                Info->displayInfo();
                 isAdmin = Info->adminLogin();
             }
             system("clear");
             do {
+                Info->displayInfo();
                 cout << "\n=== Restaurant Order Management System [ADMIN] ===\n";
                 cout << "1. Complete Order\n";
                 cout << "2. Show All Orders\n";
@@ -106,12 +106,11 @@ int main() {
             cin >> clientTable;
             Info = new Client(clientName, stoi(clientTable));//polymorphism
             bool tableIsFree = ReserveTable.addTable(Info->getName(), Info->getTableNumber());
-            Info->displayInfo();
             cin.ignore();
             system("clear");
             do {
                 if(tableIsFree == false) break;
-                cout << "Welcome, " << Info->getName() << "! Your table number is " << Info->getTableNumber() << ".\n";
+                Info->displayInfo();
                 cout << "\n=== Restaurant Order Management System [Client] ===\n";
                 cout << "1. Add Order\n";
                 cout << "2. Process Next Order\n";

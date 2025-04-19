@@ -40,7 +40,7 @@ void showFoodMenu(const MenuItem menu[], int size) {
 
 bool takeOrder(const MenuItem menu[], int menuSize, int orderIDs[], int &orderCount) {
     orderCount = 0;
-    int id, qty;
+    int id;
 
     cout << "\nEnter food ID to order: ";
     cin >> id;

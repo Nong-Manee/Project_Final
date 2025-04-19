@@ -20,7 +20,7 @@ class Client : public User {
         }
         
         void displayInfo() {
-            cout << "Client Name: " << name << ", Table number: " << tableNumber << endl;
+            cout << "Welcome, " << name << "! Your Table number is " << tableNumber << endl;
         }
 
         int getTableNumber() {
