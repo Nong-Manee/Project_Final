@@ -32,8 +32,13 @@ int main() {
         Info = new User();
         Info->displayInfo();//polymorphism
         cout << "Admin (1) / Client (2) ? (else (exit)): ";
-        cin >> userType;
-        system("clear");
+    while (!(cin >> userType)) {
+        cin.clear(); // clear the error flag
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard invalid input
+        cout << "⚠️ Invalid input. Please enter a number: ";
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // remove any leftover characters
+    system("clear");
 
         bool isAdmin = false;
         if (userType == 1) { // Admin [Id needs to be 999 to Login]
@@ -116,10 +121,9 @@ int main() {
                 cout << "2. Process Next Order\n";
                 cout << "3. Show all your orders\n";
                 cout << "4. Cancel Order\n";
-                cout << "5. Search Orders by Food\n";
-                cout << "6. Count Total Orders\n";
-                cout << "7. Show Popular Orders\n";
-                cout << "8. Check for This meal\n";
+                cout << "5. Count Total Orders\n";
+                cout << "6. Show Popular Orders\n";
+                cout << "7. Check for This meal\n";
                 cout << "0. Back to Login\n";
                 cout << "Choose an option: ";
                 cin >> choice;
@@ -166,21 +170,14 @@ int main() {
                         pressEnter();
                         break;
                     case 5:
-                        showFoodMenu(menu, MENU_SIZE);
-                        cout << "Enter food name to search: ";
-                        getline(cin, foodName);
-                        queue.searchOrder(foodName);
-                        pressEnter();
-                        break;
-                    case 6:
                         queue.countOrders();
                         pressEnter();
                         break;
-                    case 7:
+                    case 6:
                         popular.displayPopular();
                         pressEnter();
                         break;
-                    case 8:
+                    case 7:
                         ReserveTable.clearTable(Info->getName());
                         queue.showBill(Info->getTableNumber());
                         pressEnter();
