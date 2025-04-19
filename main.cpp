@@ -88,9 +88,6 @@ int main() {
                         queue.showAllBills();
                         pressEnter();
                         break;
-                    case 6:
-                        queue.showAllBills();
-                        break;
                     case 0:
                         cout << "👋 Exiting system. Goodbye!\n";
                         break;
