@@ -1,3 +1,6 @@
+#ifndef timestamp_h
+#define timestamp_h
+
 #include <iostream>
 #include <chrono>
 #include <ctime>
@@ -15,4 +18,9 @@ string getCurrentTimestamp(int offsetHours) {
     return string(buf);
 }
 
+void pressEnter() {
+    cout << "Press Enter to continue...";
+    cin.get(); 
+}
 
+#endif

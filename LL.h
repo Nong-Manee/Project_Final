@@ -1,59 +1,91 @@
 #include <iostream>
-#include"Node.h"
+#include <string>
 using namespace std;
 
 #ifndef LL_H
 #define LL_H
 
-class LL{
-    NODE*hol;
-    int size;
-public:
-     void add_node(NODE*&);
-     void show_all();
-     NODE* getHead() { return hol; }
-  
-     ~LL(); //de
-     LL(); //con
-    
+class Node {
+     public:
+          Node* next;
+          int quantity;
+          string foodname;
+
+          Node(string f) : quantity(1), foodname(f), next(nullptr) {}
 };
 
+class PopularLL {
+     private:
+         Node* hol;
+     public:
+          PopularLL() : hol(nullptr) {}
+          void addNode(Node*&);
+          void sortingPopular();
+          void displayPopular();
+};
 
-LL::LL(){
-       hol=NULL;
-       size=0;
+void PopularLL::addNode(Node*& a) {
+     if (hol == nullptr) {
+         hol = a;
+         return;
+     }
+ 
+     Node* t = hol;
+     while (t != nullptr) {
+         if (t->foodname == a->foodname) {
+             t->quantity++;
+             delete a;
+             return;
+         }
+         if (t->next == nullptr) break;
+         t = t->next;
+     }
+ 
+     // No duplicate found, append new node
+     t->next = a;
+ }
+ 
+
+void PopularLL::sortingPopular() {
+     if (!hol || !hol->next) return;
+
+     bool swapped;
+     Node **ptr;
+ 
+     do {
+         swapped = false;
+         ptr = &hol;
+ 
+         while ((*ptr)->next != nullptr) {
+             Node* a = *ptr;
+             Node* b = a->next;
+ 
+             if (a->quantity < b->quantity) {  // descending order
+                 // Swap nodes by changing links
+                 a->next = b->next;
+                 b->next = a;
+                 *ptr = b;
+                 swapped = true;
+             }
+ 
+             ptr = &((*ptr)->next);  // move to next pointer-to-pointer
+         }
+     } while (swapped);
 }
 
-LL::~LL(){
-     NODE *t;
-     while (hol)
-     {
-          t = hol;
-          hol = hol->move_next();
+void PopularLL::displayPopular() {
+     if(hol==nullptr) {
+          cout << "📉 No duplicate items found yet.\n";
+          return;
      }
-     size = 0;
-}
-
-void LL::show_all(){
-     NODE *t = hol;
-     while(t != NULL)
-     {
-          t->show_node();
-          t = t->move_next();
+     sortingPopular();
+     cout << "🔥 Most popular items:\n";
+     Node* t = hol;
+     while(t->next != nullptr) {
+          cout << " - " << t->foodname << ": " << t->quantity << " times\n";
+          t = t->next;
      }
-}
-void LL::add_node(NODE *&A){
-     if (hol == NULL){
-          hol = A;
-     }
-     else {
-          NODE* t = hol;
-          while (t->move_next() != NULL){
-               t = t->move_next();
-          }
-          t->insert(A);
-     }
-     size++;
+     cout << " - " << t->foodname << ": " << t->quantity << " times\n";
 }
 
 #endif 
