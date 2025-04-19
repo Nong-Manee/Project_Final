@@ -31,7 +31,7 @@ int main() {
         cout << "👋 Welcome to the Restaurant Order Management System!\n";
         Info = new User();
         Info->displayInfo();//polymorphism
-        cout << "Admin (1) / Client (2) ? (else (exit)): ";
+        cout << "Admin (1) / Client (2) ? (else = exit): ";
     while (!(cin >> userType)) {
         cin.clear(); // clear the error flag
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard invalid input
@@ -58,8 +58,7 @@ int main() {
                 cout << "2. Show All Orders\n";
                 cout << "3. Search Orders by Food\n";
                 cout << "4. Count Total Orders\n";
-                cout << "5. Show Popular Orders\n";
-                cout << "6. Show All Bills\n";
+                cout << "5. Show All Bills\n";
                 cout << "0. Back to Login\n";
                 cout << "Choose an option: ";
                 cin >> choice;
@@ -86,10 +85,6 @@ int main() {
                         pressEnter();
                         break;
                     case 5:
-                        popular.displayPopular();
-                        pressEnter();
-                        break;
-                    case 6:
                         queue.showAllBills();
                         pressEnter();
                         break;

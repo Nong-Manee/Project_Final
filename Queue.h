@@ -37,7 +37,7 @@ public:
             rear->next = newOrder;
             rear = newOrder;
         }
-        cout << "✅ Order #" << newOrder->orderId << " for Table " << tableNum << ": " 
+        cout << "✅ Order" << " for Table " << tableNum << ": " 
              << foodName << " added to queue.\n";
         pressEnter();
         return newOrder->orderId ;
@@ -86,7 +86,7 @@ public:
     }
 
     void showcurrentClientOrders(int clientTable) {
-        int IsOrder = 0;
+        int IsOrder = 0, ordernum = 1;
         if (front == nullptr) {
             cout << "📭 No orders in queue.\n";
             return;
@@ -96,9 +96,10 @@ public:
         cout << "📋 Current Orders in Queue:\n";
         while (temp != nullptr) {
             if(temp->tableNumber == clientTable) {
-                cout << " - Order #" << temp->orderId << ": " << temp->foodName 
+                cout << " - Order #" << ordernum << ": " << temp->foodName 
                 << " | Table " << temp->tableNumber << endl;
                 IsOrder = 1;
+                ordernum++;
             }
             temp = temp->next;
         }
