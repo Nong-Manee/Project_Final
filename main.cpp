@@ -185,7 +185,7 @@ int main() {
                         pressEnter();
                 }
                 system("clear");
-            } while (choice != 0 && choice != 8);
+            } while (choice != 0 && choice != 7);
         } 
         else {
             cout << "Exiting.\n";
